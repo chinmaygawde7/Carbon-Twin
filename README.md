@@ -45,11 +45,11 @@ Sign in with Google, email magic link, or continue as a guest — your data is y
 └────────┬─────────┘   └────────┬─────────┘   └────────┬─────────┘   └────────┬─────────┘
          │                      │                       │                      │
          │              ┌───────▼───────┐       ┌───────▼───────┐              │
-         │              │ Claude vision │       │ Web Speech API │              │
-         │              │ OCR + parse   │       │ + Claude parse │              │
+         │              │ Claude vision │       │ Web Speech API │             │
+         │              │ OCR + parse   │       │ + Claude parse │             │
          │              └───────┬───────┘       └───────┬───────┘              │
          │                      │                       │                      │
-         └──────────────────────┴───────────┬───────────┴──────────────────────┘
+         └──────────────────────┴──────────────────────┴───────────────────────┘
                                               │
                                   ┌───────────▼────────────┐
                                   │  Confirm screen          │
@@ -83,7 +83,8 @@ Sign in with Google, email magic link, or continue as a guest — your data is y
 
 | Home | Garden history |
 |---|---|
-| `![home](./screenshots/home.png)` | `![history](./screenshots/history.png)` |
+| ![home](./screenshots/home.png) | ![history](./screenshots/garden.png) |
+| ![home](./screenshots/tree-avatars.png) |
 
 ---
 
