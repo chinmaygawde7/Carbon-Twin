@@ -85,8 +85,15 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    refreshScore()
-  }, [refreshScore])
+    let ignore = false
+    getCurrentWeekScore().then((s) => {
+      if (!ignore) setScore(s)
+    })
+    return () => {
+      ignore = true
+    }
+  }, [])
+
 
   async function handleLog(category: string) {
     setStatus('Logging…')

@@ -12,9 +12,10 @@ import {
   PlaneTakeoff,
   Car,
   Plane,
+  type LucideIcon
 } from 'lucide-react'
 
-export const ACTION_META: Record<string, { icon: any; color: string; bg: string }> = {
+export const ACTION_META: Record<string, { icon: LucideIcon; color: string; bg: string }> = {
   biked_or_walked: { icon: Bike, color: '#2D6A4F', bg: '#E3EDE6' },
   took_transit: { icon: Bus, color: '#2D6A4F', bg: '#E3EDE6' },
   carpooled: { icon: Users, color: '#2D6A4F', bg: '#E3EDE6' },
