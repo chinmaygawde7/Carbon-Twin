@@ -1,6 +1,5 @@
 import { supabase } from './supabase'
 
-
 async function callLogActionApi(params: { source: string; category: string; rawInput: string }) {
   const {
     data: { session },
