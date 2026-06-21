@@ -1,6 +1,5 @@
 import { supabase } from './supabase'
-import { ensureUser } from './auth'
-import { getWeekStart } from './dateUtils'
+
 
 async function callLogActionApi(params: { source: string; category: string; rawInput: string }) {
   const {
@@ -32,32 +31,22 @@ export async function logConfirmedAction(params: {
   return callLogActionApi(params)
 }
 
-export async function logReceiptItems(items: { name: string; category: string; co2e: number }[]) {
-  const user = await ensureUser()
-  if (!user) return { error: 'No user session' }
+export async function logReceiptItems(
+  items: { name: string; category: string; price_inr: number }[]
+) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  if (!session) return { error: 'No user session' }
 
-  const rows = items.map((item) => ({
-    user_id: user.id,
-    source: 'receipt' as const,
-    category: item.category,
-    raw_input: item.name,
-    co2e_kg: item.co2e,
-    confirmed: true,
-  }))
-
-  const { data: logs, error: logError } = await supabase.from('logs').insert(rows).select()
-  if (logError) return { error: logError.message }
-
-  const totalDelta = items.reduce((sum, i) => sum + i.co2e, 0)
-
-  const { error: rpcError } = await supabase.rpc('increment_weekly_score', {
-    p_user_id: user.id,
-    p_week_start: getWeekStart(),
-    p_delta: totalDelta,
-    p_count: items.length,
+  const res = await fetch('/api/log-receipt', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.access_token}`,
+    },
+    body: JSON.stringify({ items }),
   })
 
-  if (rpcError) return { error: rpcError.message, logs }
-
-  return { logs }
+  return res.json()
 }

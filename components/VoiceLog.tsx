@@ -4,6 +4,32 @@ import { Mic } from 'lucide-react'
 
 type ParseResult = { category: string | null; confidence: string }
 
+// Minimal local typing for the Web Speech API — not part of standard lib.dom.d.ts,
+// so we define just the shape we actually use rather than fighting incomplete
+// ambient declarations.
+interface SpeechRecognitionResultLike {
+  transcript: string
+}
+interface SpeechRecognitionEventLike {
+  results: { [index: number]: { [index: number]: SpeechRecognitionResultLike } }
+}
+interface SpeechRecognitionErrorEventLike {
+  error: string
+}
+interface SpeechRecognitionLike {
+  lang: string
+  interimResults: boolean
+  maxAlternatives: number
+  start: () => void
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null
+  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null
+  onend: (() => void) | null
+}
+interface WindowWithSpeechRecognition extends Window {
+  SpeechRecognition?: new () => SpeechRecognitionLike
+  webkitSpeechRecognition?: new () => SpeechRecognitionLike
+}
+
 export default function VoiceLog({
   onParsed,
 }: {
@@ -13,14 +39,15 @@ export default function VoiceLog({
   const [error, setError] = useState('')
 
   function startListening() {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    if (!SpeechRecognition) {
+    const win = window as unknown as WindowWithSpeechRecognition
+    const SpeechRecognitionCtor = win.SpeechRecognition || win.webkitSpeechRecognition
+
+    if (!SpeechRecognitionCtor) {
       setError('Voice input not supported in this browser. Try Chrome.')
       return
     }
 
-    const recognition = new SpeechRecognition()
+    const recognition = new SpeechRecognitionCtor()
     recognition.lang = 'en-US'
     recognition.interimResults = false
     recognition.maxAlternatives = 1
@@ -28,8 +55,9 @@ export default function VoiceLog({
     setListening(true)
     setError('')
 
-    recognition.onresult = async (event: any) => {
-      const transcript = event.results[0][0].transcript
+    recognition.onresult = async (event: SpeechRecognitionEventLike) => {
+      const transcript = event.results[0]?.[0]?.transcript
+      if (!transcript) return
       setListening(false)
 
       const res = await fetch('/api/parse-voice', {
@@ -41,7 +69,7 @@ export default function VoiceLog({
       onParsed(transcript, result)
     }
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEventLike) => {
       setListening(false)
       setError(`Voice error: ${event.error}`)
     }

@@ -10,7 +10,7 @@ export default function ReceiptConfirm({
   onCancel,
 }: {
   items: ReceiptItem[]
-  onConfirm: (items: (ReceiptItem & { co2e: number })[]) => void
+  onConfirm: (items: { name: string; category: string; price_inr: number }[]) => void
   onCancel: () => void
 }) {
   const [list, setList] = useState(items.map((i) => ({ ...i, included: true })))
@@ -83,7 +83,15 @@ export default function ReceiptConfirm({
         </button>
         <button
           onClick={() =>
-            onConfirm(list.filter((i) => i.included).map((i) => ({ ...i, co2e: computeCo2e(i) })))
+            onConfirm(
+              list
+                .filter((i) => i.included)
+                .map((i) => ({
+                  name: i.name,
+                  category: i.category,
+                  price_inr: i.price_inr,
+                }))
+            )
           }
           className="ct-btn-pill flex-1 py-2.5 text-sm"
         >

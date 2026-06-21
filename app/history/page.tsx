@@ -2,16 +2,22 @@
 import { useEffect, useState } from 'react'
 import { getWeeklyHistory } from '@/lib/scoring'
 import Avatar from '@/components/Avatar'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Cell,
-} from 'recharts'
+import dynamic from 'next/dynamic'
+
+const BarChart = dynamic(() => import('recharts').then((mod) => mod.BarChart), { ssr: false })
+const Bar = dynamic(() => import('recharts').then((mod) => mod.Bar), { ssr: false })
+const XAxis = dynamic(() => import('recharts').then((mod) => mod.XAxis), { ssr: false })
+const YAxis = dynamic(() => import('recharts').then((mod) => mod.YAxis), { ssr: false })
+const Tooltip = dynamic(() => import('recharts').then((mod) => mod.Tooltip), { ssr: false })
+const ResponsiveContainer = dynamic(
+  () => import('recharts').then((mod) => mod.ResponsiveContainer),
+  { ssr: false }
+)
+const CartesianGrid = dynamic(() => import('recharts').then((mod) => mod.CartesianGrid), {
+  ssr: false,
+})
+const Cell = dynamic(() => import('recharts').then((mod) => mod.Cell), { ssr: false })
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { getCurrentUser, signOut } from '@/lib/auth'

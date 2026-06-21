@@ -2,15 +2,7 @@ import { supabase } from './supabase'
 import { ensureUser } from './auth'
 import { getActionFactor, listActionCategories } from './emissions'
 import { COUNTER_MAP } from './counterActions'
-
-function getWeekStart(date = new Date()) {
-  const d = new Date(date)
-  const day = d.getDay()
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
-  d.setDate(diff)
-  d.setHours(0, 0, 0, 0)
-  return d.toISOString().split('T')[0]
-}
+import { getWeekStart } from './dateUtils'
 
 export type Recommendation = {
   category: string

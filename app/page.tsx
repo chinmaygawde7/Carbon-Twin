@@ -115,7 +115,9 @@ export default function Home() {
     }
   }
 
-  async function handleReceiptConfirm(items: any[]) {
+  async function handleReceiptConfirm(
+    items: { name: string; category: string; price_inr: number }[]
+  ) {
     const result = await logReceiptItems(items)
     setPendingReceipt(null)
     if (result.error) {
@@ -254,12 +256,6 @@ export default function Home() {
           />
         ) : (
           <div className="flex gap-6 justify-center items-start">
-            <button
-              onClick={() =>
-                (document.querySelector('[data-voice-trigger]') as HTMLElement)?.click()
-              }
-              className="hidden"
-            />
             <div className="flex flex-col items-center gap-2">
               <VoiceLog
                 onParsed={(transcript, result) =>
