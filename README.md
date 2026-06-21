@@ -81,10 +81,17 @@ Sign in with Google, email magic link, or continue as a guest — your data is y
 
 *(Add screenshots here before submitting — recommended set: home screen with tree + suggestion card, the log/voice/scan flow, the confirm screen, and the garden history page.)*
 
-| Home | Garden history |
+| Home |
 |---|---|
-| ![home](./screenshots/home.png) | ![history](./screenshots/garden.png) |
-| ![home](./screenshots/tree-avatars.png) |
+| ![home](./screenshots/home.png)
+
+| Garden History |
+|---|---|
+| ![garden](./screenshots/garden.png)
+
+| Avatars |
+|---|---|
+| ![avatars](./screenshots/tree-avatars.png)
 
 ---
 
