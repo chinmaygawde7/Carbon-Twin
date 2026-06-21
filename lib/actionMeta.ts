@@ -1,0 +1,20 @@
+import {
+  Bike, Bus, Users, Salad, Leaf, Soup, Zap, Wind,
+  Recycle, ShoppingBag, PlaneTakeoff, Car, Plane,
+} from 'lucide-react'
+
+export const ACTION_META: Record<string, { icon: any; color: string; bg: string }> = {
+  biked_or_walked:      { icon: Bike,          color: '#2D6A4F', bg: '#E3EDE6' },
+  took_transit:         { icon: Bus,           color: '#2D6A4F', bg: '#E3EDE6' },
+  carpooled:            { icon: Users,         color: '#2D6A4F', bg: '#E3EDE6' },
+  veg_meal:             { icon: Salad,         color: '#3E7C3E', bg: '#E8F0E2' },
+  vegan_meal:           { icon: Leaf,          color: '#3E7C3E', bg: '#E8F0E2' },
+  leftovers_no_waste:   { icon: Soup,          color: '#3E7C3E', bg: '#E8F0E2' },
+  saved_power:          { icon: Zap,           color: '#B7862C', bg: '#F6EEDB' },
+  air_dried_laundry:    { icon: Wind,          color: '#B7862C', bg: '#F6EEDB' },
+  reused_or_repaired:   { icon: Recycle,       color: '#5B5FA8', bg: '#E8E8F4' },
+  reusable_bag_bottle:  { icon: ShoppingBag,   color: '#5B5FA8', bg: '#E8E8F4' },
+  skipped_flight_leg:   { icon: PlaneTakeoff,  color: '#2D6A4F', bg: '#E3EDE6' },
+  drove_solo:           { icon: Car,           color: '#C8723D', bg: '#F5E6DA' },
+  took_flight_domestic: { icon: Plane,         color: '#C8723D', bg: '#F5E6DA' },
+}

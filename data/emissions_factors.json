@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "unit": "kg CO2e",
+    "notes": "Two kinds of entries: 'purchase' factors are per ₹100 spent (for receipt-parsed items), 'action' factors are per occurrence (for quick-action/voice logs). Sign convention: positive = emitted, negative = avoided relative to a typical alternative.",
+    "sources": "Approximate, directionally sourced from DEFRA 2024 conversion factors, EPA emissions factors hub, and India CEA grid emission factor (~0.71 kg CO2e/kWh). Intended for relative scoring and demo purposes, not regulatory reporting."
+  },
+
+  "purchase_categories": {
+    "red_meat":        { "factor_per_100inr": 2.8, "label": "Red meat" },
+    "poultry_eggs":     { "factor_per_100inr": 1.1, "label": "Poultry & eggs" },
+    "dairy":            { "factor_per_100inr": 1.3, "label": "Dairy" },
+    "fish_seafood":     { "factor_per_100inr": 1.0, "label": "Fish & seafood" },
+    "produce":          { "factor_per_100inr": 0.3, "label": "Fruits & vegetables" },
+    "grains_staples":   { "factor_per_100inr": 0.4, "label": "Grains & staples" },
+    "packaged_snacks":  { "factor_per_100inr": 0.9, "label": "Packaged & processed food" },
+    "beverages":        { "factor_per_100inr": 0.6, "label": "Beverages" },
+    "clothing_fast":    { "factor_per_100inr": 1.6, "label": "Clothing & apparel" },
+    "electronics":      { "factor_per_100inr": 2.2, "label": "Electronics" },
+    "fuel_petrol":      { "factor_per_100inr": 2.4, "label": "Petrol/diesel" },
+    "household_misc":   { "factor_per_100inr": 0.5, "label": "Household & misc" }
+  },
+
+  "action_categories": {
+    "biked_or_walked":      { "factor_per_event": -1.8, "label": "Biked or walked instead of driving", "assumed_km": 5 },
+    "took_transit":         { "factor_per_event": -1.2, "label": "Took public transit instead of driving", "assumed_km": 8 },
+    "carpooled":            { "factor_per_event": -0.9, "label": "Carpooled instead of driving solo" },
+    "veg_meal":             { "factor_per_event": -1.5, "label": "Ate a vegetarian meal instead of meat" },
+    "vegan_meal":           { "factor_per_event": -2.1, "label": "Ate a vegan meal instead of meat" },
+    "leftovers_no_waste":   { "factor_per_event": -0.4, "label": "Ate leftovers / avoided food waste" },
+    "saved_power":          { "factor_per_event": -0.7, "label": "Reduced electricity use (AC/lights off)" },
+    "air_dried_laundry":    { "factor_per_event": -0.3, "label": "Air-dried instead of using dryer" },
+    "reused_or_repaired":   { "factor_per_event": -1.0, "label": "Reused or repaired instead of buying new" },
+    "reusable_bag_bottle":  { "factor_per_event": -0.1, "label": "Used reusable bag/bottle instead of single-use" },
+    "skipped_flight_leg":   { "factor_per_event": -90.0, "label": "Skipped or avoided a short-haul flight" },
+    "drove_solo":           { "factor_per_event": 2.3, "label": "Drove solo (logged for awareness, not penalized visually)" },
+    "took_flight_domestic": { "factor_per_event": 95.0, "label": "Took a domestic flight" }
+  }
+}
