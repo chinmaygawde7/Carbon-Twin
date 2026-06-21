@@ -1,8 +1,10 @@
 'use client'
+import { memo } from 'react'
 
-export default function Avatar({ totalCo2e, size = 'large' }: { totalCo2e: number; size?: 'large' | 'small' }) {
+function Avatar({ totalCo2e, size = 'large' }: { totalCo2e: number; size?: 'large' | 'small' }) {
   const health = Math.max(0, Math.min(1, (10 - totalCo2e) / 30))
-  const dims = size === 'large' ? { w: 220, h: 160, vb: '0 0 220 160' } : { w: 64, h: 46, vb: '0 0 220 160' }
+  const dims =
+    size === 'large' ? { w: 220, h: 160, vb: '0 0 220 160' } : { w: 64, h: 46, vb: '0 0 220 160' }
 
   // Growth stage thresholds
   const stage =
@@ -14,37 +16,84 @@ export default function Avatar({ totalCo2e, size = 'large' }: { totalCo2e: numbe
 
   // Canopy cluster opacities/scales fade in progressively by stage
   const clusters = [
-    { cx: 110, cy: trunkTopY, r: 16 + health * 22, fill: '#2D6A4F', opacity: Math.min(1, health * 2.2), key: 'core' },
-    { cx: 88, cy: trunkTopY + 6, r: 10 + health * 14, fill: '#3E7C3E', opacity: health > 0.25 ? Math.min(1, (health - 0.15) * 2) : 0, key: 'left' },
-    { cx: 134, cy: trunkTopY + 4, r: 10 + health * 13, fill: '#3E7C3E', opacity: health > 0.25 ? Math.min(1, (health - 0.15) * 2) : 0, key: 'right' },
-    { cx: 110, cy: trunkTopY - 16, r: 8 + health * 11, fill: '#5DCAA5', opacity: health > 0.5 ? Math.min(1, (health - 0.4) * 2.5) : 0, key: 'top' },
-    { cx: 96, cy: trunkTopY - 4, r: 7 + health * 9, fill: '#5DCAA5', opacity: health > 0.6 ? Math.min(1, (health - 0.5) * 3) : 0, key: 'topleft' },
-    { cx: 124, cy: trunkTopY - 6, r: 7 + health * 9, fill: '#5DCAA5', opacity: health > 0.6 ? Math.min(1, (health - 0.5) * 3) : 0, key: 'topright' },
+    {
+      cx: 110,
+      cy: trunkTopY,
+      r: 16 + health * 22,
+      fill: '#2D6A4F',
+      opacity: Math.min(1, health * 2.2),
+      key: 'core',
+    },
+    {
+      cx: 88,
+      cy: trunkTopY + 6,
+      r: 10 + health * 14,
+      fill: '#3E7C3E',
+      opacity: health > 0.25 ? Math.min(1, (health - 0.15) * 2) : 0,
+      key: 'left',
+    },
+    {
+      cx: 134,
+      cy: trunkTopY + 4,
+      r: 10 + health * 13,
+      fill: '#3E7C3E',
+      opacity: health > 0.25 ? Math.min(1, (health - 0.15) * 2) : 0,
+      key: 'right',
+    },
+    {
+      cx: 110,
+      cy: trunkTopY - 16,
+      r: 8 + health * 11,
+      fill: '#5DCAA5',
+      opacity: health > 0.5 ? Math.min(1, (health - 0.4) * 2.5) : 0,
+      key: 'top',
+    },
+    {
+      cx: 96,
+      cy: trunkTopY - 4,
+      r: 7 + health * 9,
+      fill: '#5DCAA5',
+      opacity: health > 0.6 ? Math.min(1, (health - 0.5) * 3) : 0,
+      key: 'topleft',
+    },
+    {
+      cx: 124,
+      cy: trunkTopY - 6,
+      r: 7 + health * 9,
+      fill: '#5DCAA5',
+      opacity: health > 0.6 ? Math.min(1, (health - 0.5) * 3) : 0,
+      key: 'topright',
+    },
   ]
 
-  const blossoms = stage === 'thriving'
-    ? [
-        { cx: 96, cy: trunkTopY - 10, r: 2.4 },
-        { cx: 122, cy: trunkTopY - 18, r: 2.2 },
-        { cx: 108, cy: trunkTopY - 28, r: 2.4 },
-        { cx: 134, cy: trunkTopY + 2, r: 2 },
-        { cx: 84, cy: trunkTopY + 8, r: 2.2 },
-      ]
-    : []
+  const blossoms =
+    stage === 'thriving'
+      ? [
+          { cx: 96, cy: trunkTopY - 10, r: 2.4 },
+          { cx: 122, cy: trunkTopY - 18, r: 2.2 },
+          { cx: 108, cy: trunkTopY - 28, r: 2.4 },
+          { cx: 134, cy: trunkTopY + 2, r: 2 },
+          { cx: 84, cy: trunkTopY + 8, r: 2.2 },
+        ]
+      : []
 
-  const fallenLeaves = stage === 'sapling'
-    ? [
-        { cx: 70, cy: 142, rot: 20 },
-        { cx: 150, cy: 138, rot: -15 },
-        { cx: 100, cy: 146, rot: 40 },
-      ]
-    : []
+  const fallenLeaves =
+    stage === 'sapling'
+      ? [
+          { cx: 70, cy: 142, rot: 20 },
+          { cx: 150, cy: 138, rot: -15 },
+          { cx: 100, cy: 146, rot: 40 },
+        ]
+      : []
 
   const caption =
-    stage === 'sapling' ? 'Your tree is just a sapling' :
-    stage === 'budding' ? 'Your tree is budding' :
-    stage === 'growing' ? 'Your tree is growing' :
-    'Your tree is thriving'
+    stage === 'sapling'
+      ? 'Your tree is just a sapling'
+      : stage === 'budding'
+        ? 'Your tree is budding'
+        : stage === 'growing'
+          ? 'Your tree is growing'
+          : 'Your tree is thriving'
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -84,13 +133,28 @@ export default function Avatar({ totalCo2e, size = 'large' }: { totalCo2e: numbe
         {/* small side branches once growing */}
         {health > 0.4 && (
           <>
-            <path d={`M 109 ${trunkTopY + 18} L 95 ${trunkTopY + 4}`} stroke="#6B4F3A" strokeWidth="2.5" opacity={0.5 + health * 0.5} strokeLinecap="round" />
-            <path d={`M 112 ${trunkTopY + 16} L 126 ${trunkTopY + 2}`} stroke="#6B4F3A" strokeWidth="2.5" opacity={0.5 + health * 0.5} strokeLinecap="round" />
+            <path
+              d={`M 109 ${trunkTopY + 18} L 95 ${trunkTopY + 4}`}
+              stroke="#6B4F3A"
+              strokeWidth="2.5"
+              opacity={0.5 + health * 0.5}
+              strokeLinecap="round"
+            />
+            <path
+              d={`M 112 ${trunkTopY + 16} L 126 ${trunkTopY + 2}`}
+              stroke="#6B4F3A"
+              strokeWidth="2.5"
+              opacity={0.5 + health * 0.5}
+              strokeLinecap="round"
+            />
           </>
         )}
 
         {/* canopy clusters, gentle sway on thriving */}
-        <g className="ct-avatar-canopy" style={{ transform: `rotate(${sway}deg)`, transformOrigin: '110px 146px' }}>
+        <g
+          className="ct-avatar-canopy"
+          style={{ transform: `rotate(${sway}deg)`, transformOrigin: '110px 146px' }}
+        >
           {clusters.map((c) => (
             <circle key={c.key} cx={c.cx} cy={c.cy} r={c.r} fill={c.fill} opacity={c.opacity} />
           ))}
@@ -105,3 +169,5 @@ export default function Avatar({ totalCo2e, size = 'large' }: { totalCo2e: numbe
     </div>
   )
 }
+
+export default memo(Avatar)

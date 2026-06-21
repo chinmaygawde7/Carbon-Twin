@@ -42,7 +42,9 @@ export default function ConfirmCard({
             {Icon && <Icon size={18} color={meta!.color} strokeWidth={2} />}
           </span>
           <span className="text-sm font-medium flex-1">{factor.label}</span>
-          <span className="text-xs" style={{ color: 'var(--ink-muted)' }}>edit</span>
+          <span className="text-xs" style={{ color: 'var(--ink-muted)' }}>
+            edit
+          </span>
         </button>
       ) : (
         <select
@@ -69,7 +71,8 @@ export default function ConfirmCard({
             factor.factor_per_event < 0 ? 'ct-impact-positive' : 'ct-impact-negative'
           }`}
         >
-          {factor.factor_per_event > 0 ? '+' : ''}{factor.factor_per_event} kg CO2e
+          {factor.factor_per_event > 0 ? '+' : ''}
+          {factor.factor_per_event} kg CO2e
         </div>
       )}
 

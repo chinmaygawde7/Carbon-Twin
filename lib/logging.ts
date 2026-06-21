@@ -1,18 +1,11 @@
 import { supabase } from './supabase'
 import { ensureUser } from './auth'
-
-function getWeekStart(date = new Date()) {
-  const d = new Date(date)
-  const day = d.getDay()
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
-  d.setDate(diff)
-  d.setHours(0, 0, 0, 0)
-  return d.toISOString().split('T')[0]
-}
-
+import { getWeekStart } from './dateUtils'
 
 async function callLogActionApi(params: { source: string; category: string; rawInput: string }) {
-  const { data: { session } } = await supabase.auth.getSession()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
   if (!session) return { error: 'No user session' }
 
   const res = await fetch('/api/log-action', {
@@ -38,8 +31,6 @@ export async function logConfirmedAction(params: {
 }) {
   return callLogActionApi(params)
 }
-
-
 
 export async function logReceiptItems(items: { name: string; category: string; co2e: number }[]) {
   const user = await ensureUser()

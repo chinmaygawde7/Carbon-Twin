@@ -1,8 +1,12 @@
 import emissionsFactors from '@/data/emissions_factors.json'
 
-
 export function getActionFactor(category: string) {
-  const entry = (emissionsFactors.action_categories as Record<string, { factor_per_event: number; label: string }>)[category]
+  const entry = (
+    emissionsFactors.action_categories as Record<
+      string,
+      { factor_per_event: number; label: string }
+    >
+  )[category]
   if (!entry) {
     console.error(`Unknown action category: ${category}`)
     return null
@@ -18,9 +22,13 @@ export function listActionCategories() {
   }))
 }
 
-
 export function getPurchaseFactor(category: string) {
-  const entry = (emissionsFactors.purchase_categories as Record<string, { factor_per_100inr: number; label: string }>)[category]
+  const entry = (
+    emissionsFactors.purchase_categories as Record<
+      string,
+      { factor_per_100inr: number; label: string }
+    >
+  )[category]
   if (!entry) return null
   return entry
 }

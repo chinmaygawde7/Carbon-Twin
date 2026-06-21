@@ -1,8 +1,9 @@
 'use client'
 import { ACTION_META } from '@/lib/actionMeta'
 import { Recommendation } from '@/lib/recommendations'
+import { memo } from 'react'
 
-export default function Suggestion({
+function Suggestion({
   recommendation,
   onLog,
 }: {
@@ -21,7 +22,10 @@ export default function Suggestion({
         {Icon && <Icon size={20} color={meta!.color} strokeWidth={2} />}
       </span>
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--ink-muted)' }}>
+        <p
+          className="text-[10px] uppercase tracking-wide mb-0.5"
+          style={{ color: 'var(--ink-muted)' }}
+        >
           Top suggestion for you
         </p>
         <p className="text-sm font-medium leading-snug">{recommendation.label}</p>
@@ -38,3 +42,5 @@ export default function Suggestion({
     </div>
   )
 }
+
+export default memo(Suggestion)

@@ -15,23 +15,28 @@ Most carbon trackers fail for the same two reasons: they're boring (a number on 
 ## Features
 
 ### 🌱 A tree that reacts to your real data
+
 The avatar moves through four real growth stages — sapling, budding, growing, thriving — driven entirely by this week's net CO2e. Full canopy and blossoms only appear once you've genuinely avoided enough emissions; fallen leaves appear when you haven't.
 
 ### 📝 Four ways to log, one pipeline
+
 - **Quick-action tap** — one tap for common actions (biked, veg meal, transit, etc.)
 - **Voice log** — speak naturally ("I biked to work today"); Claude parses it into a structured action
 - **Receipt/photo scan** — snap a grocery receipt; Claude's vision extracts line items and categorizes them, no manual entry
-- **Passive trip detection** *(built, not yet wired in — see Known Limitations)* — browser geolocation infers walking/biking trips automatically
+- **Passive trip detection** _(built, not yet wired in — see Known Limitations)_ — browser geolocation infers walking/biking trips automatically
 
 All four converge on the same emissions-factor lookup and the same atomic weekly scoring system.
 
 ### 💡 Personalized, data-driven suggestions
+
 Not generic eco-tips — Carbon Twin looks at what you actually logged this week, finds your single biggest emission contributor, and recommends the specific counter-action with the highest impact. If you haven't logged anything yet, it suggests the highest-leverage action you haven't tried.
 
 ### 📊 Garden history
+
 A weekly bar chart plus a row of miniature trees, so a single good (or bad) week becomes part of a visible trend, not an isolated snapshot.
 
 ### 🔐 Real authentication
+
 Sign in with Google, email magic link, or continue as a guest — your data is yours, enforced by Postgres row-level security, not just convention.
 
 ---
@@ -73,38 +78,41 @@ Sign in with Google, email magic link, or continue as a guest — your data is y
                               └──────────────┘   └─────────────────┘
 ```
 
-**Why a static emissions table instead of an AI estimate?** Costs (numbers stay defensible and auditable — anyone can open `data/emissions_factors.json` and check the source), speed (instant, no API round-trip for the math itself), and reliability (no risk of the model hallucinating a number mid-demo). The AI's job is purely *classification* (which category does this belong to), never *quantification* (how much CO2e is that).
+**Why a static emissions table instead of an AI estimate?** Costs (numbers stay defensible and auditable — anyone can open `data/emissions_factors.json` and check the source), speed (instant, no API round-trip for the math itself), and reliability (no risk of the model hallucinating a number mid-demo). The AI's job is purely _classification_ (which category does this belong to), never _quantification_ (how much CO2e is that).
 
 ---
 
 ## Screenshots
 
-*(Add screenshots here before submitting — recommended set: home screen with tree + suggestion card, the log/voice/scan flow, the confirm screen, and the garden history page.)*
+_(Add screenshots here before submitting — recommended set: home screen with tree + suggestion card, the log/voice/scan flow, the confirm screen, and the garden history page.)_
 
 | Home |
-|---|
+| ---- |
+
 | ![home](./screenshots/home.png)
 
 | Garden History |
-|---|
+| -------------- |
+
 | ![garden](./screenshots/garden.png)
 
 | Avatars |
-|---|
+| ------- |
+
 | ![avatars](./screenshots/tree-avatars.png)
 
 ---
 
 ## Tech stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Frontend | Next.js (App Router) + Tailwind | Single JS/TS codebase, fast to build, deploys cleanly to Vercel's free tier |
-| Auth + DB | Supabase (Postgres) | Free tier, built-in RLS, anonymous + OAuth + email auth out of the box |
-| AI | Claude Haiku (`claude-haiku-4-5`) | Cheap enough that the entire build stayed under $5, capable enough for classification + vision OCR |
-| Charts | Recharts | Lightweight, themeable |
-| Icons | Lucide React | Consistent icon set for category visual language |
-| Testing | Vitest | Fast unit tests on the pure emissions/trip-detection logic |
+| Layer     | Choice                            | Why                                                                                                |
+| --------- | --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Frontend  | Next.js (App Router) + Tailwind   | Single JS/TS codebase, fast to build, deploys cleanly to Vercel's free tier                        |
+| Auth + DB | Supabase (Postgres)               | Free tier, built-in RLS, anonymous + OAuth + email auth out of the box                             |
+| AI        | Claude Haiku (`claude-haiku-4-5`) | Cheap enough that the entire build stayed under $5, capable enough for classification + vision OCR |
+| Charts    | Recharts                          | Lightweight, themeable                                                                             |
+| Icons     | Lucide React                      | Consistent icon set for category visual language                                                   |
+| Testing   | Vitest                            | Fast unit tests on the pure emissions/trip-detection logic                                         |
 
 ---
 
@@ -149,6 +157,7 @@ npm run dev
 ```
 
 Required environment variables (see `.env.example`):
+
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `ANTHROPIC_API_KEY`

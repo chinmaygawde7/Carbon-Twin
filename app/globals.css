@@ -1,19 +1,18 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --paper: #EDEAE2;
-  --paper-raised: #F5F3ED;
-  --ink: #1F2B22;
-  --ink-muted: #5C6B5F;
-  --canopy: #2D6A4F;
-  --canopy-soft: #E3EDE6;
-  --clay: #C8723D;
-  --clay-soft: #F5E6DA;
-  --border: #DCD7C9;
+  --paper: #edeae2;
+  --paper-raised: #f5f3ed;
+  --ink: #1f2b22;
+  --ink-muted: #5c6b5f;
+  --canopy: #2d6a4f;
+  --canopy-soft: #e3ede6;
+  --clay: #c8723d;
+  --clay-soft: #f5e6da;
+  --border: #dcd7c9;
   --radius: 12px;
   --radius-pill: 999px;
 }
-
 
 * {
   border-color: var(--border);
@@ -23,8 +22,7 @@ body {
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(31,43,34,0.04) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(31, 43, 34, 0.04) 1px, transparent 0);
   background-size: 18px 18px;
 }
 
@@ -44,7 +42,9 @@ body {
   color: var(--paper-raised);
   border-radius: var(--radius-pill);
   font-weight: 500;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
 }
 .ct-btn-pill:active {
   transform: scale(0.97);
@@ -76,7 +76,9 @@ body {
   background-color: var(--paper-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: border-color 0.15s ease, transform 0.1s ease;
+  transition:
+    border-color 0.15s ease,
+    transform 0.1s ease;
 }
 .ct-quick-tile:hover {
   border-color: var(--canopy);
@@ -86,7 +88,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ct-btn-pill, .ct-quick-tile {
+  .ct-btn-pill,
+  .ct-quick-tile {
     transition: none;
   }
 }
@@ -104,7 +107,7 @@ input:focus-visible {
 }
 
 :root {
-  --ink-muted: #4A574C;
+  --ink-muted: #4a574c;
 }
 
 .sr-only {
@@ -125,5 +128,11 @@ input:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .ct-avatar-canopy {
     transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none;
   }
 }

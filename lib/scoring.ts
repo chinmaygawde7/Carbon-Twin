@@ -1,14 +1,6 @@
 import { supabase } from './supabase'
 import { ensureUser } from './auth'
-
-function getWeekStart(date = new Date()) {
-  const d = new Date(date)
-  const day = d.getDay()
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
-  d.setDate(diff)
-  d.setHours(0, 0, 0, 0)
-  return d.toISOString().split('T')[0]
-}
+import { getWeekStart } from './dateUtils'
 
 export async function getCurrentWeekScore() {
   const user = await ensureUser()
@@ -23,7 +15,6 @@ export async function getCurrentWeekScore() {
 
   return data ?? { total_co2e_kg: 0, logs_count: 0 }
 }
-
 
 export async function getWeeklyHistory(weeksBack = 8) {
   const user = await ensureUser()

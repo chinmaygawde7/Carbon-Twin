@@ -28,13 +28,21 @@ export default function PassiveTripWatcher({
         })
 
         const completedTrip = trackerRef.current.checkTripComplete()
-        if (completedTrip && completedTrip.mode !== 'driving' && completedTrip.mode !== 'stationary') {
+        if (
+          completedTrip &&
+          completedTrip.mode !== 'driving' &&
+          completedTrip.mode !== 'stationary'
+        ) {
           onTripDetected(completedTrip)
         }
       },
       (err) => {
         consecutiveErrorsRef.current += 1
-        console.warn(`Geolocation poll error (${consecutiveErrorsRef.current} consecutive):`, err.code, err.message)
+        console.warn(
+          `Geolocation poll error (${consecutiveErrorsRef.current} consecutive):`,
+          err.code,
+          err.message
+        )
         if (consecutiveErrorsRef.current >= 5) {
           setError('Location unavailable — check device location services')
         }
@@ -72,7 +80,10 @@ export default function PassiveTripWatcher({
 
   return (
     <div className="text-center">
-      <button onClick={active ? stopWatching : startWatching} className="border rounded p-3 text-sm">
+      <button
+        onClick={active ? stopWatching : startWatching}
+        className="border rounded p-3 text-sm"
+      >
         {active ? 'Stop trip detection' : 'Enable trip detection'}
       </button>
       {error && <p className="text-xs text-red-500 mt-2">{error}</p>}

@@ -41,16 +41,15 @@ export default function Login() {
         Track your footprint. Watch it grow.
       </p>
 
-      <button
-        onClick={signInWithGoogle}
-        className="ct-btn-pill w-full py-3 text-sm mb-3"
-      >
+      <button onClick={signInWithGoogle} className="ct-btn-pill w-full py-3 text-sm mb-3">
         Continue with Google
       </button>
 
       {!emailSent ? (
         <form onSubmit={handleEmailSubmit} className="mb-3">
-          <label htmlFor="email-input" className="sr-only">Email address</label>
+          <label htmlFor="email-input" className="sr-only">
+            Email address
+          </label>
           <input
             id="email-input"
             type="email"
@@ -61,11 +60,7 @@ export default function Login() {
             className="w-full p-3 mb-2 text-sm ct-card"
             style={{ color: 'var(--ink)' }}
           />
-          <button
-            type="submit"
-            disabled={loading}
-            className="ct-btn-secondary w-full py-3 text-sm"
-          >
+          <button type="submit" disabled={loading} className="ct-btn-secondary w-full py-3 text-sm">
             {loading ? 'Sending…' : 'Continue with email'}
           </button>
         </form>

@@ -44,7 +44,14 @@ export default function PhotoScan({ onParsed }: { onParsed: (items: ReceiptItem[
 
   return (
     <div className="text-center">
-      <input ref={fileInputRef} type="file" accept="image/*" capture="environment" onChange={handleFile} className="hidden" />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handleFile}
+        className="hidden"
+      />
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={loading}

@@ -78,7 +78,6 @@ export async function getTopRecommendation(): Promise<Recommendation | null> {
     .filter((a) => !loggedActionCategories.has(a.key))
     .sort((a, b) => a.co2e - b.co2e) // most negative (highest impact) first
 
-
   const top = notYetLogged[0]
   if (top) {
     return {

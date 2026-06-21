@@ -4,12 +4,17 @@ import { Mic } from 'lucide-react'
 
 type ParseResult = { category: string | null; confidence: string }
 
-export default function VoiceLog({ onParsed }: { onParsed: (transcript: string, result: ParseResult) => void }) {
+export default function VoiceLog({
+  onParsed,
+}: {
+  onParsed: (transcript: string, result: ParseResult) => void
+}) {
   const [listening, setListening] = useState(false)
   const [error, setError] = useState('')
 
   function startListening() {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     if (!SpeechRecognition) {
       setError('Voice input not supported in this browser. Try Chrome.')
       return

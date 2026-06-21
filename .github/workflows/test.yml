@@ -1,0 +1,2 @@
+- name: Check formatting
+  run: npm run format:check

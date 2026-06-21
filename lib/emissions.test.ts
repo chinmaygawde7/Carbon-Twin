@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { getActionFactor, getPurchaseFactor, listActionCategories, listPurchaseCategories } from './emissions'
+import {
+  getActionFactor,
+  getPurchaseFactor,
+  listActionCategories,
+  listPurchaseCategories,
+} from './emissions'
 
 describe('getActionFactor', () => {
   it('returns the correct factor for a known category', () => {

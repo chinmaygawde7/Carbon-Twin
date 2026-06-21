@@ -13,7 +13,6 @@ export async function POST(req: Request) {
   const clientKey = getClientKey(req)
   const { allowed } = checkRateLimit(clientKey, 30, 60 * 60 * 1000)
 
-
   if (!allowed) {
     return NextResponse.json(
       { error: 'Too many requests. Please wait a bit before trying again.' },
@@ -65,6 +64,9 @@ Skip subtotal/tax/total lines. If price is unclear, estimate reasonably. If a ca
     const parsed = JSON.parse(cleaned)
     return NextResponse.json(parsed)
   } catch {
-    return NextResponse.json({ error: 'Failed to parse model response', raw: textBlock.text }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to parse model response', raw: textBlock.text },
+      { status: 500 }
+    )
   }
 }

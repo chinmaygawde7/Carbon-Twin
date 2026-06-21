@@ -21,7 +21,9 @@ export default function ReceiptConfirm({
   }
 
   function toggleIncluded(index: number) {
-    setList((prev) => prev.map((item, i) => (i === index ? { ...item, included: !item.included } : item)))
+    setList((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, included: !item.included } : item))
+    )
   }
 
   function computeCo2e(item: ReceiptItem) {
@@ -40,11 +42,7 @@ export default function ReceiptConfirm({
 
       <div className="space-y-2 mb-3 max-h-72 overflow-y-auto pr-1">
         {list.map((item, i) => (
-          <div
-            key={i}
-            className="ct-card p-3"
-            style={{ opacity: item.included ? 1 : 0.4 }}
-          >
+          <div key={i} className="ct-card p-3" style={{ opacity: item.included ? 1 : 0.4 }}>
             <div className="flex justify-between items-center mb-2 gap-2">
               <span className="text-sm font-medium flex-1">{item.name}</span>
               <span className="text-xs font-mono-num" style={{ color: 'var(--ink-muted)' }}>

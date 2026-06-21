@@ -2,21 +2,13 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import emissionsFactors from '@/data/emissions_factors.json'
 import { z } from 'zod'
+import { getWeekStart } from '@/lib/dateUtils'
 
 const LogActionSchema = z.object({
   source: z.enum(['quick_action', 'voice', 'receipt', 'photo', 'passive']),
   category: z.string().min(1).max(64),
   rawInput: z.string().max(2000),
 })
-
-function getWeekStart(date = new Date()) {
-  const d = new Date(date)
-  const day = d.getDay()
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
-  d.setDate(diff)
-  d.setHours(0, 0, 0, 0)
-  return d.toISOString().split('T')[0]
-}
 
 export async function POST(req: Request) {
   const authHeader = req.headers.get('authorization')
@@ -44,7 +36,10 @@ export async function POST(req: Request) {
   const body = await req.json()
   const parsed = LogActionSchema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Invalid request', details: parsed.error.flatten() },
+      { status: 400 }
+    )
   }
   const { source, category, rawInput } = parsed.data
 
@@ -52,7 +47,9 @@ export async function POST(req: Request) {
   // the client never gets to supply this number directly, closing the
   // client-side tampering gap (e.g. someone hand-crafting an insert with a
   // fabricated co2e_kg value via devtools).
-  const factor = (emissionsFactors.action_categories as Record<string, { factor_per_event: number }>)[category]
+  const factor = (
+    emissionsFactors.action_categories as Record<string, { factor_per_event: number }>
+  )[category]
   if (!factor) {
     return NextResponse.json({ error: 'Unknown category' }, { status: 400 })
   }
@@ -60,7 +57,14 @@ export async function POST(req: Request) {
 
   const { data: log, error: logError } = await supabase
     .from('logs')
-    .insert({ user_id: userId, source, category, raw_input: rawInput, co2e_kg: co2e, confirmed: true })
+    .insert({
+      user_id: userId,
+      source,
+      category,
+      raw_input: rawInput,
+      co2e_kg: co2e,
+      confirmed: true,
+    })
     .select()
     .single()
 
