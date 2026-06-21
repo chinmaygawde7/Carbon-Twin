@@ -94,7 +94,6 @@ export default function Home() {
     }
   }, [])
 
-
   async function handleLog(category: string) {
     setStatus('Logging…')
     const result = await logQuickAction(category)

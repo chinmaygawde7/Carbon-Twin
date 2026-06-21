@@ -36,7 +36,7 @@ export default function PhotoScan({ onParsed }: { onParsed: (items: ReceiptItem[
       } catch {
         setError('Failed to scan receipt')
       } finally {
-        setLoading(false) 
+        setLoading(false)
       }
     }
     reader.readAsDataURL(file)

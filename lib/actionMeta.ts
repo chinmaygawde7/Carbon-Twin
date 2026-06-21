@@ -12,7 +12,7 @@ import {
   PlaneTakeoff,
   Car,
   Plane,
-  type LucideIcon
+  type LucideIcon,
 } from 'lucide-react'
 
 export const ACTION_META: Record<string, { icon: LucideIcon; color: string; bg: string }> = {
