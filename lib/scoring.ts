@@ -43,3 +43,21 @@ export async function getWeeklyHistory(weeksBack = 8) {
 
   return data
 }
+
+export async function getLastWeekScore() {
+  const user = await ensureUser()
+  if (!user) return null
+
+  const lastWeekDate = new Date()
+  lastWeekDate.setDate(lastWeekDate.getDate() - 7)
+  const lastWeekStart = getWeekStart(lastWeekDate)
+
+  const { data } = await supabase
+    .from('weekly_scores')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('week_start', lastWeekStart)
+    .maybeSingle()
+
+  return data
+}

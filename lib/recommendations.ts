@@ -18,7 +18,18 @@ export type Recommendation = {
   co2e: number
   reason: string
 }
-
+/**
+ * Computes a personalized action recommendation based on this week's actual logs.
+ *
+ * Strategy: find the category that contributed the most emissions this week
+ * (e.g. dairy purchases, a logged solo drive) and recommend its strongest
+ * known counter-action via COUNTER_MAP. If nothing has added emissions yet,
+ * fall back to the highest-impact action the user hasn't tried this week.
+ *
+ * Deliberately rule-based rather than LLM-driven — keeps recommendations
+ * fast, free, and fully explainable (the `reason` field always traces back
+ * to a specific number from the user's own data).
+ */
 export async function getTopRecommendation(): Promise<Recommendation | null> {
   const user = await ensureUser()
   if (!user) return null
@@ -67,8 +78,9 @@ export async function getTopRecommendation(): Promise<Recommendation | null> {
     .filter((a) => !loggedActionCategories.has(a.key))
     .sort((a, b) => a.co2e - b.co2e) // most negative (highest impact) first
 
-  if (notYetLogged.length > 0) {
-    const top = notYetLogged[0]
+
+  const top = notYetLogged[0]
+  if (top) {
     return {
       category: top.key,
       label: top.label,

@@ -11,7 +11,8 @@ const categories = Object.entries(emissionsFactors.action_categories)
 
 export async function POST(req: Request) {
   const clientKey = getClientKey(req)
-  const { allowed, remaining } = checkRateLimit(clientKey, 30, 60 * 60 * 1000)
+  const { allowed } = checkRateLimit(clientKey, 30, 60 * 60 * 1000)
+
 
   if (!allowed) {
     return NextResponse.json(

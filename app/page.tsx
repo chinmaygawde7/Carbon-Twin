@@ -2,11 +2,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { logQuickAction, logConfirmedAction, logReceiptItems } from '@/lib/logging'
 import { listActionCategories } from '@/lib/emissions'
-import { getCurrentWeekScore } from '@/lib/scoring'
+import { getCurrentWeekScore, getLastWeekScore  } from '@/lib/scoring'
 import Avatar from '@/components/Avatar'
-import VoiceLog from '@/components/VoiceLog'
 import ConfirmCard from '@/components/ConfirmCard'
-import PhotoScan from '@/components/PhotoScan'
 import ReceiptConfirm from '@/components/ReceiptConfirm'
 import Link from 'next/link'
 import { ACTION_META } from '@/lib/actionMeta'
@@ -14,6 +12,10 @@ import { getTopRecommendation, Recommendation } from '@/lib/recommendations'
 import Suggestion from '@/components/Suggestion'
 import { useRouter } from 'next/navigation'
 import { getCurrentUser, signOut } from '@/lib/auth'
+import dynamic from 'next/dynamic'
+
+const VoiceLog = dynamic(() => import('@/components/VoiceLog'), { ssr: false })
+const PhotoScan = dynamic(() => import('@/components/PhotoScan'), { ssr: false })
 
 const PRIMARY_ACTIONS = [
   'biked_or_walked',
@@ -55,7 +57,16 @@ export default function Home() {
     getTopRecommendation().then(setSuggestion)
   }, [score.logs_count]) // re-fetch whenever logs_count changes, so it updates after each log
 
-  
+  const [lastWeekScore, setLastWeekScore] = useState<{ total_co2e_kg: number } | null>(null)
+
+  useEffect(() => {
+    getLastWeekScore().then(setLastWeekScore)
+  }, [])
+
+  // compute a percent change:
+  const percentChange = lastWeekScore && lastWeekScore.total_co2e_kg !== 0
+    ? ((score.total_co2e_kg - lastWeekScore.total_co2e_kg) / Math.abs(lastWeekScore.total_co2e_kg)) * 100
+    : null
 
   const refreshScore = useCallback(async () => {
     const s = await getCurrentWeekScore()
@@ -132,6 +143,11 @@ export default function Home() {
           <span className="font-mono-num text-sm" style={{ color: 'var(--ink-muted)' }}>
             this week · {score.total_co2e_kg.toFixed(1)} kg CO2e · {score.logs_count} logs
           </span>
+          {percentChange !== null && (
+            <p className="text-xs font-mono-num mt-1" style={{ color: percentChange < 0 ? 'var(--canopy)' : 'var(--clay)' }}>
+              {percentChange < 0 ? '↓' : '↑'} {Math.abs(percentChange).toFixed(0)}% vs last week
+            </p>
+          )}
         </div>
 
         {suggestion && (
@@ -139,11 +155,14 @@ export default function Home() {
         )}
 
 
-        {status && (
-          <p className="text-center text-xs mb-4" style={{ color: 'var(--ink-muted)' }}>
-            {status}
-          </p>
-        )}
+        <p
+          role="status"
+          aria-live="polite"
+          className="text-center text-xs mb-4 min-h-[1rem]"
+          style={{ color: 'var(--ink-muted)' }}
+        >
+          {status}
+        </p>
 
         <div className="grid grid-cols-2 gap-3 mb-3">
           {primary.map((a) => {
@@ -223,6 +242,9 @@ export default function Home() {
             </div>
           )}
         </div>
+        <p className="text-[10px] text-center mt-8" style={{ color: 'var(--ink-muted)' }}>
+          Emissions estimates based on DEFRA &amp; EPA conversion factors
+        </p>
       </main>
     )
 }

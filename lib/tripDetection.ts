@@ -21,6 +21,18 @@ export function classifySpeed(speedKmh: number): TripMode {
   return 'driving'
 }
 
+/**
+ * Accumulates GPS points over time and infers whether the user is walking,
+ * biking, or driving based on average speed between points. A "trip" is
+ * considered complete once speed has stayed near-zero for `idleThresholdMs`,
+ * at which point `checkTripComplete()` returns the dominant mode and total
+ * distance, clearing the tracker for the next trip.
+ *
+ * Not currently wired into the main app — see README "Known limitations".
+ * Kept and tested as a foundation for a future native/PWA build with more
+ * reliable background location permissions.
+ */
+
 export class TripTracker {
   private points: GeoPoint[] = []
   private idleStart: number | null = null
@@ -35,7 +47,9 @@ export class TripTracker {
   get totalDistanceKm() {
     let total = 0
     for (let i = 1; i < this.points.length; i++) {
-      total += haversineKm(this.points[i - 1], this.points[i])
+      const prev = this.points[i - 1]
+      const curr = this.points[i]
+      if (prev && curr) total += haversineKm(prev, curr)
     }
     return total
   }
@@ -45,6 +59,7 @@ export class TripTracker {
     if (n < 2) return 0
     const a = this.points[n - 2]
     const b = this.points[n - 1]
+    if (!a || !b) return 0
     const distKm = haversineKm(a, b)
     const timeHr = (b.timestamp - a.timestamp) / 1000 / 3600
     if (timeHr <= 0) return 0
@@ -55,8 +70,11 @@ export class TripTracker {
     if (this.points.length < 2) return 'stationary'
     const speeds: number[] = []
     for (let i = 1; i < this.points.length; i++) {
-      const distKm = haversineKm(this.points[i - 1], this.points[i])
-      const timeHr = (this.points[i].timestamp - this.points[i - 1].timestamp) / 1000 / 3600
+      const prev = this.points[i - 1]
+      const curr = this.points[i]
+      if (!prev || !curr) continue
+      const distKm = haversineKm(prev, curr)
+      const timeHr = (curr.timestamp - prev.timestamp) / 1000 / 3600
       if (timeHr > 0) speeds.push(distKm / timeHr)
     }
     if (speeds.length === 0) return 'stationary'

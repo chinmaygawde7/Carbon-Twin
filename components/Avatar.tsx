@@ -90,7 +90,7 @@ export default function Avatar({ totalCo2e, size = 'large' }: { totalCo2e: numbe
         )}
 
         {/* canopy clusters, gentle sway on thriving */}
-        <g style={{ transform: `rotate(${sway}deg)`, transformOrigin: '110px 146px', transition: 'opacity 0.4s ease' }}>
+        <g className="ct-avatar-canopy" style={{ transform: `rotate(${sway}deg)`, transformOrigin: '110px 146px' }}>
           {clusters.map((c) => (
             <circle key={c.key} cx={c.cx} cy={c.cy} r={c.r} fill={c.fill} opacity={c.opacity} />
           ))}

@@ -50,13 +50,14 @@ export default function Login() {
 
       {!emailSent ? (
         <form onSubmit={handleEmailSubmit} className="mb-3">
+          <label htmlFor="email-input" className="sr-only">Email address</label>
           <input
+            id="email-input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
             required
-            aria-label="Email address"
             className="w-full p-3 mb-2 text-sm ct-card"
             style={{ color: 'var(--ink)' }}
           />

@@ -1,6 +1,5 @@
 import emissionsFactors from '@/data/emissions_factors.json'
 
-type ActionCategory = keyof typeof emissionsFactors.action_categories
 
 export function getActionFactor(category: string) {
   const entry = (emissionsFactors.action_categories as Record<string, { factor_per_event: number; label: string }>)[category]
